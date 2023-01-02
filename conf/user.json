@@ -1,0 +1,12 @@
+[{
+    "ID":        1,
+    "Username":     "admin",
+    "Password":     "$2a$10$yTzpf0tbVWfkrgI8gHKYjOXfJxswvAbC65QERdVyZ9DFPNjmTAP0e",
+    "Mobile":       "18888888888",
+    "Avatar":       "https://wpimg.wallstcn.com/f778738c-e4f8-4870-b634-56703b4acafe.gif",
+    "Nickname":     "",
+    "Introduction": "",
+    "Status":       1,
+    "Creator":      "系统",
+    "Roles":        [{"ID":1}]
+}]

@@ -1,0 +1,9 @@
+[
+    {"ID":1,"Name":"System","Title":"系统管理","Icon":"component","Path":"/system","Component":"Layout","Redirect":"/system/user","Sort":10,"ParentId":0,"Roles":[{"ID":1}],"Creator":"系统"},
+    {"ID":2,"Name":"User","Title":"用户管理","Icon":"user","Path":"user","Component":"/system/user/index","Sort":11,"ParentId":1,"Roles":[{"ID":1}],"Creator":"系统"},
+    {"ID":3,"Name":"Role","Title":"角色管理","Icon":"peoples","Path":"role","Component":"/system/role/index","Sort":12,"ParentId":1,"Roles":[{"ID":1}],"Creator":"系统"},
+    {"ID":4,"Name":"Menu","Title":"菜单管理","Icon":"tree-table","Path":"menu","Component":"/system/menu/index","Sort":13,"ParentId":1,"Roles":[{"ID":1}],"Creator":"系统"},
+    {"ID":5,"Name":"Api","Title":"接口管理","Icon":"tree","Path":"api","Component":"/system/api/index","Sort":14,"ParentId":1,"Roles":[{"ID":1}],"Creator":"系统"},
+    {"ID":6,"Name":"Log","Title":"日志管理","Icon":"example","Path":"/log","Component":"Layout","Redirect":"/log/operation-log","Sort":20,"ParentId":0,"Roles":[{"ID":1},{"ID":2}],"Creator":"系统"},
+    {"ID":7,"Name":"OperationLog","Title":"操作日志","Icon":"documentation","Path":"operation-log","Component":"/log/operation-log/index","Sort":21,"ParentId":6,"Roles":[{"ID":1},{"ID":2}],"Creator":"系统"}
+]

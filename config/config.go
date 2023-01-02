@@ -19,10 +19,65 @@ var Conf = new(config)
 type config struct {
 	System    *SystemConfig    `mapstructure:"system" json:"system"`
 	Logs      *LogsConfig      `mapstructure:"logs" json:"logs"`
-	Mysql     *MysqlConfig     `mapstructure:"mysql" json:"mysql"`
+	Database  *DatabaseConfig  `mapstructure:"database" json:"database"`
 	Casbin    *CasbinConfig    `mapstructure:"casbin" json:"casbin"`
 	Jwt       *JwtConfig       `mapstructure:"jwt" json:"jwt"`
 	RateLimit *RateLimitConfig `mapstructure:"rate-limit" json:"rateLimit"`
+}
+
+type SystemConfig struct {
+	Mode            string `mapstructure:"mode" json:"mode"`
+	UrlPathPrefix   string `mapstructure:"url-path-prefix" json:"urlPathPrefix"`
+	Port            int    `mapstructure:"port" json:"port"`
+	InitData        bool   `mapstructure:"init-data" json:"initData"`
+	RSAPublicKey    string `mapstructure:"rsa-public-key" json:"rsaPublicKey"`
+	RSAPrivateKey   string `mapstructure:"rsa-private-key" json:"rsaPrivateKey"`
+	RSAPublicBytes  []byte `mapstructure:"-" json:"-"`
+	RSAPrivateBytes []byte `mapstructure:"-" json:"-"`
+	DatabaseType    string `mapstructure:"-" json:"-"`
+}
+
+type LogsConfig struct {
+	Level      zapcore.Level `mapstructure:"level" json:"level"`
+	Path       string        `mapstructure:"path" json:"path"`
+	MaxSize    int           `mapstructure:"max-size" json:"maxSize"`
+	MaxBackups int           `mapstructure:"max-backups" json:"maxBackups"`
+	MaxAge     int           `mapstructure:"max-age" json:"maxAge"`
+	Compress   bool          `mapstructure:"compress" json:"compress"`
+}
+
+type DatabaseConfig struct {
+	FilePath        string `mapstructure:"file-path" json:"filePath"`
+	Username        string `mapstructure:"username" json:"username"`
+	Password        string `mapstructure:"password" json:"password"`
+	Database        string `mapstructure:"database" json:"database"`
+	Host            string `mapstructure:"host" json:"host"`
+	Port            int    `mapstructure:"port" json:"port"`
+	Query           string `mapstructure:"query" json:"query"`
+	LogMode         bool   `mapstructure:"log-mode" json:"logMode"`
+	TablePrefix     string `mapstructure:"table-prefix" json:"tablePrefix"`
+	Charset         string `mapstructure:"charset" json:"charset"`
+	Collation       string `mapstructure:"collation" json:"collation"`
+	MaxIdle         int    `mapstructure:"max-idle" json:"maxIdle"`
+	MaxOpen         int    `mapstructure:"max-open" json:"maxOpen"`
+	ConnMaxLifetime int    `mapstructure:"conn-max-lifetime" json:"connMaxLifetime"`
+	EnablePool      bool   `mapstructure:"enable-pool" json:"enablePool"`
+}
+
+type CasbinConfig struct {
+	ModelPath string `mapstructure:"model-path" json:"modelPath"`
+}
+
+type JwtConfig struct {
+	Realm      string `mapstructure:"realm" json:"realm"`
+	Key        string `mapstructure:"key" json:"key"`
+	Timeout    int    `mapstructure:"timeout" json:"timeout"`
+	MaxRefresh int    `mapstructure:"max-refresh" json:"maxRefresh"`
+}
+
+type RateLimitConfig struct {
+	FillInterval int64 `mapstructure:"fill-interval" json:"fillInterval"`
+	Capacity     int64 `mapstructure:"capacity" json:"capacity"`
 }
 
 // 设置读取配置信息
@@ -34,7 +89,7 @@ func InitConfig() {
 
 	viper.SetConfigName("config")
 	viper.SetConfigType("yml")
-	viper.AddConfigPath(workDir + "./")
+	viper.AddConfigPath(workDir + "./conf/")
 	// 读取配置信息
 	err = viper.ReadInConfig()
 
@@ -61,53 +116,4 @@ func InitConfig() {
 	Conf.System.RSAPublicBytes = util.RSAReadKeyFromFile(Conf.System.RSAPublicKey)
 	Conf.System.RSAPrivateBytes = util.RSAReadKeyFromFile(Conf.System.RSAPrivateKey)
 
-}
-
-type SystemConfig struct {
-	Mode            string `mapstructure:"mode" json:"mode"`
-	UrlPathPrefix   string `mapstructure:"url-path-prefix" json:"urlPathPrefix"`
-	Port            int    `mapstructure:"port" json:"port"`
-	InitData        bool   `mapstructure:"init-data" json:"initData"`
-	RSAPublicKey    string `mapstructure:"rsa-public-key" json:"rsaPublicKey"`
-	RSAPrivateKey   string `mapstructure:"rsa-private-key" json:"rsaPrivateKey"`
-	RSAPublicBytes  []byte `mapstructure:"-" json:"-"`
-	RSAPrivateBytes []byte `mapstructure:"-" json:"-"`
-}
-
-type LogsConfig struct {
-	Level      zapcore.Level `mapstructure:"level" json:"level"`
-	Path       string        `mapstructure:"path" json:"path"`
-	MaxSize    int           `mapstructure:"max-size" json:"maxSize"`
-	MaxBackups int           `mapstructure:"max-backups" json:"maxBackups"`
-	MaxAge     int           `mapstructure:"max-age" json:"maxAge"`
-	Compress   bool          `mapstructure:"compress" json:"compress"`
-}
-
-type MysqlConfig struct {
-	Username    string `mapstructure:"username" json:"username"`
-	Password    string `mapstructure:"password" json:"password"`
-	Database    string `mapstructure:"database" json:"database"`
-	Host        string `mapstructure:"host" json:"host"`
-	Port        int    `mapstructure:"port" json:"port"`
-	Query       string `mapstructure:"query" json:"query"`
-	LogMode     bool   `mapstructure:"log-mode" json:"logMode"`
-	TablePrefix string `mapstructure:"table-prefix" json:"tablePrefix"`
-	Charset     string `mapstructure:"charset" json:"charset"`
-	Collation   string `mapstructure:"collation" json:"collation"`
-}
-
-type CasbinConfig struct {
-	ModelPath string `mapstructure:"model-path" json:"modelPath"`
-}
-
-type JwtConfig struct {
-	Realm      string `mapstructure:"realm" json:"realm"`
-	Key        string `mapstructure:"key" json:"key"`
-	Timeout    int    `mapstructure:"timeout" json:"timeout"`
-	MaxRefresh int    `mapstructure:"max-refresh" json:"maxRefresh"`
-}
-
-type RateLimitConfig struct {
-	FillInterval int64 `mapstructure:"fill-interval" json:"fillInterval"`
-	Capacity     int64 `mapstructure:"capacity" json:"capacity"`
 }

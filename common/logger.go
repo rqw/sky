@@ -108,3 +108,11 @@ func InitLogger() {
 	Log = logger.Sugar()
 	Log.Info("初始化zap日志完成!")
 }
+func LogErr(msg string, err error) bool {
+	if err != nil {
+		Log.Panicf(msg, err)
+		return true
+	}
+	return false
+
+}

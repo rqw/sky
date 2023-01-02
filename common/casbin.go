@@ -1,7 +1,6 @@
 package common
 
 import (
-	"fmt"
 	"sky/config"
 
 	"github.com/casbin/casbin/v2"
@@ -12,30 +11,22 @@ import (
 var CasbinEnforcer *casbin.Enforcer
 
 // 初始化casbin策略管理器
-func InitCasbinEnforcer() {
-	e, err := mysqlCasbin()
-	if err != nil {
-		Log.Panicf("初始化Casbin失败：%v", err)
-		panic(fmt.Sprintf("初始化Casbin失败：%v", err))
-	}
-
-	CasbinEnforcer = e
-	Log.Info("初始化Casbin完成!")
-}
-
-func mysqlCasbin() (*casbin.Enforcer, error) {
+func InitCasbinEnforcer() bool {
 	a, err := gormadapter.NewAdapterByDB(DB)
-	if err != nil {
-		return nil, err
+	if LogErr("InitCasbinEnforcer fail in NewAdapterByDB：%v", err) {
+		return false
 	}
 	e, err := casbin.NewEnforcer(config.Conf.Casbin.ModelPath, a)
-	if err != nil {
-		return nil, err
+	if LogErr("InitCasbinEnforcer fail in NewEnforcer：%v", err) {
+		return false
 	}
 
 	err = e.LoadPolicy()
-	if err != nil {
-		return nil, err
+	if LogErr("InitCasbinEnforcer fail in LoadPolicy%v", err) {
+		return false
 	}
-	return e, nil
+	CasbinEnforcer = e
+	Log.Info("InitCasbinEnforcer success!")
+	return true
+
 }

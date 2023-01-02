@@ -1,0 +1,250 @@
+[
+    {
+        "Method": "POST",
+        "Path": "/base/login",
+        "Category": "base",
+        "Desc": "用户登录",
+        "Creator": "系统",
+        "ID": 1
+    },
+    {
+        "Method": "POST",
+        "Path": "/base/logout",
+        "Category": "base",
+        "Desc": "用户登出",
+        "Creator": "系统",
+        "ID": 2
+    },
+    {
+        "Method": "POST",
+        "Path": "/base/refreshToken",
+        "Category": "base",
+        "Desc": "刷新JWT令牌",
+        "Creator": "系统",
+        "ID": 3
+    },
+    {
+        "Method": "POST",
+        "Path": "/user/info",
+        "Category": "user",
+        "Desc": "获取当前登录用户信息",
+        "Creator": "系统",
+        "ID": 4
+    },
+    {
+        "Method": "GET",
+        "Path": "/user/list",
+        "Category": "user",
+        "Desc": "获取用户列表",
+        "Creator": "系统",
+        "ID": 5
+    },
+    {
+        "Method": "PUT",
+        "Path": "/user/changePwd",
+        "Category": "user",
+        "Desc": "更新用户登录密码",
+        "Creator": "系统",
+        "ID": 6
+    },
+    {
+        "Method": "POST",
+        "Path": "/user/create",
+        "Category": "user",
+        "Desc": "创建用户",
+        "Creator": "系统",
+        "ID": 7
+    },
+    {
+        "Method": "PATCH",
+        "Path": "/user/update/:userId",
+        "Category": "user",
+        "Desc": "更新用户",
+        "Creator": "系统",
+        "ID": 8
+    },
+    {
+        "Method": "DELETE",
+        "Path": "/user/delete/batch",
+        "Category": "user",
+        "Desc": "批量删除用户",
+        "Creator": "系统",
+        "ID": 9
+    },
+    {
+        "Method": "GET",
+        "Path": "/role/list",
+        "Category": "role",
+        "Desc": "获取角色列表",
+        "Creator": "系统",
+        "ID": 10
+    },
+    {
+        "Method": "POST",
+        "Path": "/role/create",
+        "Category": "role",
+        "Desc": "创建角色",
+        "Creator": "系统",
+        "ID": 11
+    },
+    {
+        "Method": "PATCH",
+        "Path": "/role/update/:roleId",
+        "Category": "role",
+        "Desc": "更新角色",
+        "Creator": "系统",
+        "ID": 12
+    },
+    {
+        "Method": "GET",
+        "Path": "/role/menus/get/:roleId",
+        "Category": "role",
+        "Desc": "获取角色的权限菜单",
+        "Creator": "系统",
+        "ID": 13
+    },
+    {
+        "Method": "PATCH",
+        "Path": "/role/menus/update/:roleId",
+        "Category": "role",
+        "Desc": "更新角色的权限菜单",
+        "Creator": "系统",
+        "ID": 14
+    },
+    {
+        "Method": "GET",
+        "Path": "/role/apis/get/:roleId",
+        "Category": "role",
+        "Desc": "获取角色的权限接口",
+        "Creator": "系统",
+        "ID": 15
+    },
+    {
+        "Method": "PATCH",
+        "Path": "/role/apis/update/:roleId",
+        "Category": "role",
+        "Desc": "更新角色的权限接口",
+        "Creator": "系统",
+        "ID": 16
+    },
+    {
+        "Method": "DELETE",
+        "Path": "/role/delete/batch",
+        "Category": "role",
+        "Desc": "批量删除角色",
+        "Creator": "系统",
+        "ID": 17
+    },
+    {
+        "Method": "GET",
+        "Path": "/menu/list",
+        "Category": "menu",
+        "Desc": "获取菜单列表",
+        "Creator": "系统",
+        "ID": 18
+    },
+    {
+        "Method": "GET",
+        "Path": "/menu/tree",
+        "Category": "menu",
+        "Desc": "获取菜单树",
+        "Creator": "系统",
+        "ID": 19
+    },
+    {
+        "Method": "POST",
+        "Path": "/menu/create",
+        "Category": "menu",
+        "Desc": "创建菜单",
+        "Creator": "系统",
+        "ID": 20
+    },
+    {
+        "Method": "PATCH",
+        "Path": "/menu/update/:menuId",
+        "Category": "menu",
+        "Desc": "更新菜单",
+        "Creator": "系统",
+        "ID": 21
+    },
+    {
+        "Method": "DELETE",
+        "Path": "/menu/delete/batch",
+        "Category": "menu",
+        "Desc": "批量删除菜单",
+        "Creator": "系统",
+        "ID": 22
+    },
+    {
+        "Method": "GET",
+        "Path": "/menu/access/list/:userId",
+        "Category": "menu",
+        "Desc": "获取用户的可访问菜单列表",
+        "Creator": "系统",
+        "ID": 23
+    },
+    {
+        "Method": "GET",
+        "Path": "/menu/access/tree/:userId",
+        "Category": "menu",
+        "Desc": "获取用户的可访问菜单树",
+        "Creator": "系统",
+        "ID": 24
+    },
+    {
+        "Method": "GET",
+        "Path": "/api/list",
+        "Category": "api",
+        "Desc": "获取接口列表",
+        "Creator": "系统",
+        "ID": 25
+    },
+    {
+        "Method": "GET",
+        "Path": "/api/tree",
+        "Category": "api",
+        "Desc": "获取接口树",
+        "Creator": "系统",
+        "ID": 26
+    },
+    {
+        "Method": "POST",
+        "Path": "/api/create",
+        "Category": "api",
+        "Desc": "创建接口",
+        "Creator": "系统",
+        "ID": 27
+    },
+    {
+        "Method": "PATCH",
+        "Path": "/api/update/:roleId",
+        "Category": "api",
+        "Desc": "更新接口",
+        "Creator": "系统",
+        "ID": 28
+    },
+    {
+        "Method": "DELETE",
+        "Path": "/api/delete/batch",
+        "Category": "api",
+        "Desc": "批量删除接口",
+        "Creator": "系统",
+        "ID": 29
+    },
+    {
+        "Method": "GET",
+        "Path": "/log/operation/list",
+        "Category": "log",
+        "Desc": "获取操作日志列表",
+        "Creator": "系统",
+        "ID": 30
+    },
+    {
+        "Method": "DELETE",
+        "Path": "/log/operation/delete/batch",
+        "Category": "log",
+        "Desc": "批量删除操作日志",
+        "Creator": "系统",
+        "ID": 31
+    }
+]
