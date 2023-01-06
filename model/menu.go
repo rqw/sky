@@ -23,4 +23,5 @@ type Menu struct {
 	Creator    string  `gorm:"type:varchar(20);comment:'创建人'" json:"creator"`
 	Children   []*Menu `gorm:"-" json:"children"`                  // 子菜单集合
 	Roles      []*Role `gorm:"many2many:role_menus;" json:"roles"` // 角色菜单多对多关系
+	Apis       []*Api  `gorm:"many2many:menu_apis;" json:"apis"`   // 角色api多对多关系
 }

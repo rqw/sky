@@ -8,14 +8,16 @@ import (
 	"reflect"
 
 	"github.com/thoas/go-funk"
-	"github.com/wxnacy/wgo/arrays"
 )
 
+// 通过反射获取ID字段值
 func getItemIdVal(item interface{}) uint64 {
 	values := reflect.ValueOf(item)
 	fieldValue := values.FieldByName("ID")
 	return fieldValue.Uint()
 }
+
+// 根据传入类型初始化数据
 func initDataByType[T interface{}](conf string) ([]*T, []*T) {
 	dbRecode := make([]*T, 0)
 	fileRecode := make([]*T, 0)
@@ -35,7 +37,7 @@ func initDataByType[T interface{}](conf string) ([]*T, []*T) {
 			ids[i] = getItemIdVal(item)
 		}
 		for _, item := range fileRecode {
-			if arrays.ContainsUint(ids, getItemIdVal(item)) == -1 {
+			if funk.ContainsUInt64(ids, getItemIdVal(item)) {
 				newRecode = append(newRecode, item)
 			}
 		}
@@ -61,48 +63,40 @@ func InitData() {
 		return
 	}
 	_, roles := initDataByType[model.Role]("role")
-	initDataByType[model.Menu]("menu")
+	_, menus := initDataByType[model.Menu]("menu")
 	initDataByType[model.User]("user")
 	newApi, _ := initDataByType[model.Api]("api")
-	newRoleCasbin := make([]model.RoleCasbin, 0)
+	rules := make([][]string, 0)
+	casbinCache := make(map[string]map[uint]model.Api)
+	roleMap := make(map[uint]string)
+	apiMap := make(map[uint]model.Api)
+	for _, role := range roles {
+		roleMap[role.ID] = role.Keyword
+	}
 	for _, api := range newApi {
+		apiMap[api.ID] = *api
+	}
 
-		// 管理员拥有所有API权限
-		newRoleCasbin = append(newRoleCasbin, model.RoleCasbin{
-			Keyword: roles[0].Keyword,
-			Path:    api.Path,
-			Method:  api.Method,
-		})
-
-		// 非管理员拥有基础权限
-		basePaths := []string{
-			"/base/login",
-			"/base/logout",
-			"/base/refreshToken",
-			"/user/info",
-			"/menu/access/tree/:userId",
+	for _, menu := range menus {
+		for _, role := range menu.Roles {
+			roleCache := casbinCache[roleMap[role.ID]]
+			if roleCache != nil {
+				casbinCache[roleMap[role.ID]] = make(map[uint]model.Api)
+				roleCache = casbinCache[roleMap[role.ID]]
+			}
+			for _, api := range menu.Apis {
+				roleCache[api.ID] = apiMap[api.ID]
+			}
 		}
-
-		if funk.ContainsString(basePaths, api.Path) {
-			newRoleCasbin = append(newRoleCasbin, model.RoleCasbin{
-				Keyword: roles[1].Keyword,
-				Path:    api.Path,
-				Method:  api.Method,
-			})
-			newRoleCasbin = append(newRoleCasbin, model.RoleCasbin{
-				Keyword: roles[2].Keyword,
-				Path:    api.Path,
-				Method:  api.Method,
+	}
+	for keyword, item := range casbinCache {
+		for _, api := range item {
+			rules = append(rules, []string{
+				keyword, api.Path, api.Method,
 			})
 		}
 	}
-	if len(newRoleCasbin) > 0 {
-		rules := make([][]string, 0)
-		for _, c := range newRoleCasbin {
-			rules = append(rules, []string{
-				c.Keyword, c.Path, c.Method,
-			})
-		}
+	if len(rules) > 0 {
 		isAdd, err := CasbinEnforcer.AddPolicies(rules)
 		if !isAdd {
 			Log.Errorf("写入casbin数据失败：%v", err)
